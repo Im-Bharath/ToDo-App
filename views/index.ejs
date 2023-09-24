@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin:1px;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid hsl(0, 0%, 87%);
+            margin-top: 20px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .edit-form {
+            display: none;
+        }
+
+        .edit-form.active {
+            display: block;
+        }
+/* Add this CSS for styling the navbar */
+/* styling navlist */
+#navlist {
+        background-color: #0074D9;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+    }
+           
+    /* styling navlist anchor element */
+    #navlist a {
+        float:left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 15px;
+    }
+    .navlist-right{
+        float:right;
+    }
+   
+    /* hover effect of navlist anchor element */
+    #navlist a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+/* Add this CSS for centering the form */
+        .center-form {
+            text-align: center;
+        }
+
+        .center-form form {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar items -->
+<div id="navlist">
+    <a>ToDo App</a>
+    <div class="navlist-right">
+    <a href="/">Home Page</a>
+    <a href="/upload">Upload Image</a>
+    </div>
+</div>
+    <ul>&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <% todos.forEach(todo => { %>
+            <li>
+                <span><%= todo.task %></span>
+                <div>
+                    <a href="/delete/<%= todo.id %>">Delete</a>
+                    <a href="#" onclick="showEditForm(<%= todo.id %>)">Edit</a>
+                </div>
+                <form class="edit-form" id="edit-form-<%= todo.id %>" action="/edit/<%= todo.id %>" method="POST">
+                    <input type="text" name="editedTask" placeholder="Edit task" required>
+                    <button type="submit">Save</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+    <div class="center-form">
+    <form action="/add" method="POST">
+        <input type="text" name="task" placeholder="Add a new task" required>
+        <button type="submit">Add Task</button>
+    </form>
+    </div>
+    <button onclick="location.reload(); location.reload();">Reload The Page</button>
+    <script>
+        function showEditForm(id) {
+            const editForm = document.getElementById(`edit-form-${id}`);
+            editForm.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
